@@ -6,7 +6,7 @@
 
 ## Overview
 
-This is a docker compose project to allow development of multiple Nautobot apps in a single repository. It is based on the standard Nautobot App invoke/docker workflow so you should be able to clone this repo, run `invoke build migrate debug` and have a working Nautobot instance with all of the discovered Nautobot apps on your local system installed.
+This is a docker compose project to allow development of multiple Nautobot apps in a single docker compose project. It is based on the standard Nautobot App invoke/docker workflow so you should be able to clone this repo, run `invoke build migrate debug` and have a working Nautobot instance with all of the discovered Nautobot apps on your local system installed.
 
 ### Directory Structure
 
