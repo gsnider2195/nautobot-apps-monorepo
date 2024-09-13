@@ -3,7 +3,6 @@ x-nautobot-app-volumes: &nautobot-app-volumes
   - "{{ app_dir }}:/source/apps/{{ app_dir|basename }}:z"
 {%- endfor %}
   - "./nautobot_config.py:/opt/nautobot/nautobot_config.py:z"
-  - "../:/source:z"
 services:
   nautobot:
     volumes: *nautobot-app-volumes

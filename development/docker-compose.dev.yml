@@ -10,7 +10,6 @@ services:
       - "8080:8080"
     volumes:
       - "./nautobot_config.py:/opt/nautobot/nautobot_config.py"
-      - "../:/source"
     healthcheck:
       interval: "30s"
       timeout: "10s"
@@ -21,8 +20,6 @@ services:
     entrypoint: "mkdocs serve -v -a 0.0.0.0:8080"
     ports:
       - "8001:8080"
-    volumes:
-      - "../:/source"
     image: "apps-monorepo/nautobot:${NAUTOBOT_VER}-py${PYTHON_VER}"
     healthcheck:
       disable: true
@@ -34,7 +31,6 @@ services:
       - "watchmedo auto-restart --directory './' --pattern '*.py' --recursive -- nautobot-server celery worker -l $$NAUTOBOT_LOG_LEVEL --events"  ## $$ because of docker-compose
     volumes:
       - "./nautobot_config.py:/opt/nautobot/nautobot_config.py"
-      - "../:/source"
     healthcheck:
       test: ["CMD", "true"]  # Due to layering, disable: true won't work. Instead, change the test
   beat:
@@ -44,7 +40,6 @@ services:
       - "watchmedo auto-restart --directory './' --pattern '*.py' --recursive -- nautobot-server celery beat -l $$NAUTOBOT_LOG_LEVEL"  ## $$ because of docker-compose
     volumes:
       - "./nautobot_config.py:/opt/nautobot/nautobot_config.py"
-      - "../:/source"
 # To expose postgres or redis to the host uncomment the following
 # postgres:
 #   ports:
