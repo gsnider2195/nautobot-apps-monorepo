@@ -1,7 +1,7 @@
 # Apps Monorepo
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/gsnider2195/nautobot-apps-monorepo/develop/docs/images/icon-apps-monorepo.png" class="logo" height="200px">
+  <img src="https://raw.githubusercontent.com/gsnider2195/nautobot-apps-monorepo/main/docs/images/icon-apps-monorepo.png" class="logo" height="200px">
 </p>
 
 ## Overview
