@@ -1,9 +1,20 @@
 ---
 apps_monorepo:
-  nautobot_ver: "2.0.0"
+  nautobot_ver: "2.3.2"
   python_ver: "3.11"
   # local: false
   # compose_dir: "/full/path/to/nautobot-app-apps-monorepo/development"
+  # app_directories:  # Uncomment this list to specify the directories of the apps to include in the monorepo
+  #   - /home/user/github/nautobot/nautobot-app-bgp-models
+  #   - /home/user/github/nautobot/nautobot-app-capacity-metrics
+  #   - /home/user/github/nautobot/nautobot-app-data-validation-engine
+  #   - /home/user/github/nautobot/nautobot-app-dev-example
+  #   - /home/user/github/nautobot/nautobot-app-device-lifecycle-mgmt
+  #   - /home/user/github/nautobot/nautobot-app-device-onboarding
+  #   - /home/user/github/nautobot/nautobot-app-firewall-models
+  #   - /home/user/github/nautobot/nautobot-app-golden-config
+  #   - /home/user/github/nautobot/nautobot-app-secrets-providers
+  #   - /home/user/github/nautobot/nautobot-app-ssot
 
 # The following is an example of using MySQL as the database backend
 # ---

@@ -75,6 +75,7 @@ namespace.configure(
                 "docker-compose.override.yml",
             ],
             "compose_http_timeout": "86400",
+            "app_directories": list(Path(os.path.dirname(__file__)).resolve().parent.iterdir()),
         }
     }
 )
@@ -199,16 +200,11 @@ def run_command(context, command, **kwargs):
 IGNORE_APPS = ["nautobot-netbox-importer", "nautobot-welcome-wizard"]
 
 
-def _get_all_app_directories():
+def _get_all_app_directories(context):
     """Get the list of directories for every Nautobot app to be installed."""
-    cwd = Path(os.path.dirname(__file__)).resolve()
-    parent_dir = cwd.parent
-    # TODO: make parent_dir configurable
-    if parent_dir == cwd:
-        raise ValueError("Parent directory not found.")
-
     app_dirs = {}
-    for dir in parent_dir.iterdir():
+    for dir in context.apps_monorepo.app_directories:
+        dir = Path(dir)
         tomlfile = dir / "pyproject.toml"
         if dir.is_dir() and tomlfile.is_file():
             try:
@@ -222,9 +218,13 @@ def _get_all_app_directories():
             except Exception as e:
                 print(f"Error reading toml file {tomlfile}: {e}")
 
+    return app_dirs
+
+
+def _copy_app_directories_to_current_dir(app_dirs):
     # copy all app dirs to apps_copy to work around docker-compose build context limitations
     # TODO: clean up this directory when done
-    apps_copy_dir = cwd / "apps_copy"
+    apps_copy_dir = Path(os.path.dirname(__file__)).resolve() / "apps_copy"
     if not apps_copy_dir.exists():
         apps_copy_dir.mkdir()
     for app_name, app_dir in app_dirs.items():
@@ -232,11 +232,11 @@ def _get_all_app_directories():
         if not copied_app.exists():
             copytree(app_dir, copied_app)
 
-    return app_dirs
 
-
-def _generate_dockerfile(app_dirs):
+def _generate_dockerfile(context):
     """Generate the Dockerfile for the Nautobot Docker image."""
+    app_dirs = _get_all_app_directories(context)
+
     env = jinja2.Environment(loader=jinja2.FileSystemLoader("templates"))
     env.filters["basename"] = os.path.basename
     template = env.get_template("Dockerfile_template.j2")
@@ -245,11 +245,10 @@ def _generate_dockerfile(app_dirs):
         f.write(template.render(app_dirs=app_dirs))
 
 
-@task()
-# TODO: call this task from the build task
-def generate_docker_override_file(context):
+def _generate_docker_override_file(context):
     """Generate the docker-compose.override.yml to add the custom volume mounts."""
-    app_dirs = _get_all_app_directories()
+    app_dirs = _get_all_app_directories(context)
+    _copy_app_directories_to_current_dir(app_dirs)
     env = jinja2.Environment(loader=jinja2.FileSystemLoader("templates"))
     env.filters["basename"] = os.path.basename
     template = env.get_template("docker-compose.override.yml.j2")
@@ -267,7 +266,7 @@ def generate_docker_override_file(context):
 def build(context, force_rm=False, cache=True):
     """Build Nautobot docker image."""
     if not HAS_JINJA2:
-        raise Exit("Jinja2 is required to build the Dockerfile.")
+        raise Exit("Jinja2 is required to build the Dockerfile and docker-compose.override.yml.")
 
     command = "build"
 
@@ -278,8 +277,8 @@ def build(context, force_rm=False, cache=True):
 
     print(f"Building Nautobot with Python {context.apps_monorepo.python_ver}...")
 
-    app_dirs = _get_all_app_directories()
-    _generate_dockerfile(app_dirs)
+    _generate_dockerfile(context)
+    _generate_docker_override_file(context)
 
     docker_compose(context, command)
 
