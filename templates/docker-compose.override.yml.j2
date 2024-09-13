@@ -1,0 +1,15 @@
+x-nautobot-app-volumes: &nautobot-app-volumes
+{%- for app_name, app_dir in app_dirs.items() %}
+  - "{{ app_dir }}:/source/apps/{{ app_dir|basename }}:z"
+{%- endfor %}
+  - "./nautobot_config.py:/opt/nautobot/nautobot_config.py:z"
+  - "../:/source:z"
+services:
+  nautobot:
+    volumes: *nautobot-app-volumes
+  worker:
+    volumes: *nautobot-app-volumes
+  beat:
+    volumes: *nautobot-app-volumes
+  docs:
+    volumes: *nautobot-app-volumes

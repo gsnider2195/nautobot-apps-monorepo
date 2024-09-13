@@ -1,0 +1,26 @@
+{
+    "cookiecutter": {
+        "codeowner_github_usernames": "",
+        "full_name": "Network to Code, LLC",
+        "email": "info@networktocode.com",
+        "github_org": "nautobot",
+        "app_name": "apps_monorepo",
+        "verbose_name": "Apps Monorepo",
+        "app_slug": "apps-monorepo",
+        "project_slug": "nautobot-app-apps-monorepo",
+        "repo_url": "https://github.com/nautobot/apps-monorepo",
+        "base_url": "apps-monorepo",
+        "min_nautobot_version": "2.0.0",
+        "max_nautobot_version": "2.9999",
+        "camel_name": "AppsMonorepo",
+        "project_short_description": "Apps Monorepo",
+        "model_class_name": "None",
+        "open_source_license": "Apache-2.0",
+        "docs_base_url": "https://docs.nautobot.com",
+        "docs_app_url": "https://docs.nautobot.com/projects/apps-monorepo/en/latest",
+        "_template": "./cookiecutter-nautobot-app/",
+        "_output_dir": "/home/gary/github/nautobot/apps_monorepo",
+        "_repo_dir": "./cookiecutter-nautobot-app/nautobot-app",
+        "_checkout": null
+    }
+}

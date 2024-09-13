@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "apps-monorepo"
+package-mode = false
+description = "Apps Monorepo"
+authors = ["Network to Code, LLC <info@networktocode.com>"]
+license = "Apache-2.0"
+readme = "README.md"
+homepage = "https://github.com/nautobot/apps-monorepo"
+repository = "https://github.com/nautobot/apps-monorepo"
+documentation = "https://docs.nautobot.com/projects/apps-monorepo/en/latest/"
+keywords = ["nautobot", "nautobot-app", "nautobot-plugin"]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+[tool.poetry.dependencies]
+python = ">=3.8,<3.13"
+jinja2 = "^3.1.4"
+tomli = {version = "^2.0.1", python = "<3.11"}
+invoke = "^2.2.0"
+
+[tool.ruff]
+line-length = 120
+target-version = "py38"
